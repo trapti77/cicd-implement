@@ -1,0 +1,63 @@
+# name: deploy nodejs application to render
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@v4
+
+#       - name: Deploy Via SSH
+#         uses: appleboy/ssh-action@v1.0.3
+#         with:
+#           host: ${{secrets.SSH_HOST}}
+#           username: root
+#           key: ${{secrets.SSH_KEY}}
+#           script:
+#             cd /root/cicd-implement
+#             git pull
+#             docker compose up -d --build
+
+
+# command to generate ssh key
+# > ssh-keygen -t rsa -b 4096 -C "hostinger@trapti77.dev"
+name: Deploy using Github Action CICD Tool
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+  runs-on: ubuntu-latest
+
+  steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4  #tool jiska use krke ham code ko access krke store kr payenge docker me
+
+    - name: Deploy via SSH
+      uses: appleboy/ssh-action@v1.0.3  # tool using that we can login in vps site
+      with:
+        host: ${{secrets.SSH_HOST}}
+        username: ${{secrets.VPS_USER}}
+        key: ${{secrets.SSH_KEY}}
+        script:
+          cd /root/testdocker
+          git pull
+          docker compose up -d
+
+
+
+#vps login
+#go terminal
+#root folder -clone -access
+#git pull
+#docker compose up -d
+#to generate sshkey -- ssh-keygen -t ed25519 -C "traptipatel45@gmail.com"  in vs code terminal
